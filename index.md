@@ -1,4 +1,8 @@
-### Contact me ...
+# Welcome to QuintinDk’s Homepage
+
+First and foremost, I am a father to a beautiful daughter. A technologist with 24 years’ experience in a diverse set of technologies. Over this time I’ve learnt to put together the blocks of a solution to ensure the best outcome for a customer. I am passionate about Agile, DevOps, Cloud, Open Source, Data Engineering, Machine Learning, Architecture, Software Development and Technology in general. I have a deep understanding and tons of experience in open-source technologies such as Docker, Kubernetes, Kafka, Spark, Cassandra, Redis and MySQL as well as a strong background in Microsoft technology stack including .NET, SQL Server and Azure.
+
+## Contact me ...
 
 [![follow](https://img.shields.io/twitter/follow/quintindk?style=social)](https://twitter.com/quintindk)
 [![follow](https://img.shields.io/github/followers/quintindk?style=social)](https://github.com/quintindk)
