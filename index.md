@@ -25,7 +25,7 @@ Follow my progress [here](https://github.com/quintindk/azure-percona).
 
   Anyway, I ran the script as soon as I got access to the customers Azure subscription aut it didn't produce the diagram no mater what I tried 😢. So I switched to windows, because I know it worked there, and completed the demo.
 
-  This morning I got back to the office, opened vs code and it opened the script right on the line I needed to change. I made the changes, tested it and then pushed to my fork and then created the PR.  ```
+  This morning I got back to the office, opened vs code and it opened the script right on the line I needed to change. I made the changes, tested it and then pushed to my fork and then created the PR.
 </details>
 
 2022-12-12 - My PR was approved... I'm happy to announce that my PR was accepted and merged. I'm an open source contributor now 😊🙌.
