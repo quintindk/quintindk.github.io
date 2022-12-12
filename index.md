@@ -28,6 +28,6 @@ Follow my progress [here](https://github.com/quintindk/azure-percona).
   This morning I got back to the office, opened vs code and it opened the script right on the line I needed to change. I made the changes, tested it and then pushed to my fork and then created the PR.  ```
 </details>
 
-2022-12-12 - My PR was approved... I'm happy to announce that my PR was accepted and merged. I'm an open source contribuor now 😊🙌.
+2022-12-12 - My PR was approved... I'm happy to announce that my PR was accepted and merged. I'm an open source contributor now 😊🙌.
 
 Well, that's my TIL for today. Keep cool and stay positive.
