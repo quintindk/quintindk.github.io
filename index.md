@@ -2,7 +2,11 @@
 
 # Welcome to QuintinDk’s Homepage
 
-First and foremost, I am a father to a beautiful daughter. A technologist with 24 years’ experience in a diverse set of technologies. Over this time I’ve learnt to put together the blocks of a solution to ensure the best outcome for a customer. I am passionate about Agile, DevOps, Cloud, Open Source, Data Engineering, Machine Learning, Architecture, Software Development and Technology in general. I have a deep understanding and tons of experience in open-source technologies such as Docker, Kubernetes, Kafka, Spark, Cassandra, Redis and MySQL as well as a strong background in Microsoft technology stack including .NET, SQL Server and Azure.
+I'm a proud father to a beautiful daughter (who thankfully takes after her mom), but when I'm not busy dad-ing, I'm a tech whiz with over 24 years of experience in all sorts of wild and wacky technologies. Think of me like a superhero, but instead of fighting crime, I'm putting together the building blocks of tech solutions to make sure my customers get the best outcome possible.
+
+I'm crazy passionate about all things tech. Agile, DevOps, Cloud, Open Source, Data Engineering, Machine Learning, Architecture, Software Development - you name it, I'm into it. I'm basically a tech junkie who's always on the lookout for the latest and greatest. And when it comes to open-source technologies like Docker, Kubernetes, Kafka, Spark, Cassandra, Redis, and MySQL, I'm like a kid in a candy store. But don't worry, I'm not a one-trick pony. I've also got mad skills in Microsoft tech like .NET, SQL Server, and Azure.
+
+So yeah, that's me in a nutshell - a dad by day, a tech ninja by night.
 
 ## 🤙 Contact me ...
 
