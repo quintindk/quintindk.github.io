@@ -4,12 +4,26 @@
 
 First and foremost, I am a father to a beautiful daughter. A technologist with 24 years’ experience in a diverse set of technologies. Over this time I’ve learnt to put together the blocks of a solution to ensure the best outcome for a customer. I am passionate about Agile, DevOps, Cloud, Open Source, Data Engineering, Machine Learning, Architecture, Software Development and Technology in general. I have a deep understanding and tons of experience in open-source technologies such as Docker, Kubernetes, Kafka, Spark, Cassandra, Redis and MySQL as well as a strong background in Microsoft technology stack including .NET, SQL Server and Azure.
 
-## Contact me ...
+## 🤙 Contact me ...
 
 [![follow](https://img.shields.io/twitter/follow/quintindk?style=social)](https://twitter.com/quintindk)
 [![follow](https://img.shields.io/github/followers/quintindk?style=social)](https://github.com/quintindk)
 
-## Azure Percona
+## 📃 Azure certs
+
+3 weeks ago I undertook a little challenge for myself; get the Microsoft Certified: DevOps Engineer Expert and the Microsoft Certified: Azure Solutions Architect Expert in as little time as possible. I didn't have an end date in mind since it meant I'd have to write 4 exams. Today I finished this challenge, wrote 5 exams in 3 weeks an obtained 5 different certifications:
+
+1. [Microsoft Certified: Azure Developer Associate](https://www.credly.com/badges/335f844b-adf0-4734-94c7-dafb7697586a/public_url)
+2. [Microsoft Certified: Azure Administrator Associate](https://www.credly.com/badges/28833d99-2fe5-4da3-8962-672b36dbe9cf/public_url)\
+3. Microsoft Certified: Azure Network Engineer Associate
+4. [Microsoft Certified: DevOps Engineer Expert](https://www.credly.com/badges/20f4f669-2ac9-4f04-b3a7-d95a86087e82/public_url)
+5. [Microsoft Certified: Azure Solutions Architect Expert](https://www.credly.com/badges/1c09766c-8f31-40fd-84e2-e75969b888b9/public_url)
+
+I also renewed my [Microsoft Certified: Azure Security Engineer Associate](https://www.credly.com/badges/0954eea6-7f77-4b25-9aa0-6c47ee0ea6d3/public_url).
+
+So, what's next 😎.
+
+## 🎯 Azure Percona
 
 Recently, working on a MySQL implementation in Azure, I was not happy with the [Azure MySQL Flexible Server](https://learn.microsoft.com/en-us/azure/mysql/flexible-server/overview) implementation from Azure itself and decided to go with MySQL VM instances instead. Of course, this was not the best decision and caused some crazy technical debt which we had to address such as automated backups, performance and management etc. So, I decided that the Percona set of tools for backups, management and monitoring would be a handy product in Azure Market place and I needed something to do.
 
@@ -17,7 +31,7 @@ Follow my progress [here](https://github.com/quintindk/azure-percona).
 
 😎
 
-## Azure Resource Inventory
+## 🌟 Azure Resource Inventory
 
 [Azure Resource Inventory](https://github.com/microsoft/ARI) PowerShell 🤮 script is extremely powerful and has very handy feature to draw the resources in a [draw.io](https://draw.io) diagram. Most other automated diagraming implementations suck but this one is pretty cool 😎.
 
