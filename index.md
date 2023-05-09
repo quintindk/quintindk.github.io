@@ -1,6 +1,6 @@
 <link rel="shortcut icon" type="image/x-icon" href="favicon.jpg?">
 
-# Welcome to QuintinDk’s Homepage
+# 😶‍🌫️ Welcome to QuintinDk’s Homepage
 
 I'm a proud father to a beautiful daughter (who thankfully takes after her mom), but when I'm not busy dad-ing, I'm a tech whiz with over 24 years of experience in all sorts of wild and wacky technologies. Think of me like a superhero, but instead of fighting crime, I'm putting together the building blocks of tech solutions to make sure my customers get the best outcome possible.
 
@@ -8,10 +8,27 @@ I'm crazy passionate about all things tech. Agile, DevOps, Cloud, Open Source, D
 
 So yeah, that's me in a nutshell - a dad by day, a tech ninja by night.
 
-## 🤙 Contact me ...
+## 🤙 Contact me
 
 [![follow](https://img.shields.io/twitter/follow/quintindk?style=social)](https://twitter.com/quintindk)
 [![follow](https://img.shields.io/github/followers/quintindk?style=social)](https://github.com/quintindk)
+
+
+## 😶‍🌫️ Azure Pipelines
+
+Lately I've been working on an interesting project in Azure DevOps Pipelines and there's a tonne of learning happening here. It's all in a single repository but here's a breakdown of what I learnt:
+
+1. Azure DevOps and Github integration and Trunc-Based deployments
+2. Terraform Pipelines
+3. Function App Pipelines
+4. Adding OpenAPI to Function Apps
+5. Function Apps with Api-Keys
+6. Entity Framework Abstraction
+7. Unit Testing with xUnit
+
+All of this is in the project [https://github.com/quintindk/funapp](https://github.com/quintindk/funapp). I'll probably do some write-ups on each but feel free to check it out.
+
+💕 Happy learning!!!
 
 ## 📃 Azure certs
 
