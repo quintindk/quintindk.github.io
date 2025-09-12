@@ -1,7 +1,7 @@
 # ======================
 # Site + Theme
 # ======================
-remote_theme: "mmistakes/minimal-mistakes@latest" # pin a tag later if you want reproducible builds
+remote_theme: "mmistakes/minimal-mistakes@4.27.3"
 theme: null # avoid conflicts with remote_theme
 plugins:
     - jekyll-include-cache # required by Minimal Mistakes
