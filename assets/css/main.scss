@@ -1,0 +1,18 @@
+---
+# So Jekyll picks this up as SCSS
+---
+
+/* Override colour variables before theme imports */
+$background-color: #2E2E2E;
+$body-color: #F5F5F5;        /* Light on dark body text */
+$text-color: #F5F5F5;        /* General text colour */
+$link-color: #4ACFE5;        /* Accent colour for links, headings */
+$accent-color: #4ACFE5;
+$primary-color: #4ACFE5;
+
+/* Optionally override masthead link colour */
+$masthead-link-color: #4ACFE5;
+
+/* Then import skin and theme */
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}";
+@import "minimal-mistakes";
