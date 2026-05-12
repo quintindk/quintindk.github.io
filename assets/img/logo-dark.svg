@@ -1,6 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="quintindk logo">
   <g fill="none" stroke="#2EBE4E" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M 95 82 A 40 40 0 1 0 84 92" />
-    <polyline points="66 72 96 86 80 64" />
+    <path d="M 97.6 73.7 A 40 40 0 1 0 76.9 96.3" />
+    <g transform="translate(96 92) rotate(0)" stroke-linecap="round" stroke-width="6">
+      <polyline points="-30,-24 0,0 -30,24" />
+    </g>
   </g>
 </svg>
