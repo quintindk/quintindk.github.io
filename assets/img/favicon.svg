@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <style>
+    .q { stroke: #0F4D1E; }
+    @media (prefers-color-scheme: dark) { .q { stroke: #2EBE4E; } }
+  </style>
+  <g class="q" fill="none" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 95 82 A 40 40 0 1 0 84 92" />
+    <polyline points="66 72 96 86 80 64" />
+  </g>
+</svg>

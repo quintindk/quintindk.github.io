@@ -1,0 +1,221 @@
+:root {
+  --bg: #0d1117;
+  --bg-elev: #161b22;
+  --bg-window: #0a0e14;
+  --border: #21262d;
+  --border-strong: #30363d;
+  --text: #e6edf3;
+  --text-dim: #8b949e;
+  --text-faint: #6e7681;
+  --accent: #2EBE4E;
+  --accent-dim: #1f7a32;
+  --prompt: #2EBE4E;
+  --user: #58a6ff;
+  --host: #c9d1d9;
+  --path: #d29922;
+  --string: #a5d6ff;
+  --comment: #8b949e;
+  --keyword: #ff7b72;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --mono: "JetBrains Mono", "Fira Code", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(46, 190, 78, 0.06), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: auto, 32px 32px, 32px 32px;
+  background-attachment: fixed;
+}
+
+a { color: var(--accent); text-decoration: none; border-bottom: 1px dashed var(--accent-dim); }
+a:hover { color: #fff; border-bottom-color: var(--accent); }
+
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0 32px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand img { width: 36px; height: 36px; }
+.brand-text { font-weight: 600; color: var(--text); }
+.brand-text .sigil { color: var(--accent); }
+.brand-text .name { color: var(--text); }
+
+.nav { display: flex; gap: 4px; flex-wrap: wrap; }
+.nav a {
+  color: var(--text-dim);
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  border-bottom: none;
+}
+.nav a:hover, .nav a.active {
+  color: var(--accent);
+  background: rgba(46, 190, 78, 0.08);
+  border-color: var(--accent-dim);
+}
+
+/* ---------- Terminal window ---------- */
+.term {
+  background: var(--bg-window);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+
+.term-chrome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--bg-elev);
+  border-bottom: 1px solid var(--border-strong);
+  font-size: 12px;
+  color: var(--text-faint);
+}
+.term-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.dot-r { background: #ff5f56; }
+.dot-y { background: #ffbd2e; }
+.dot-g { background: #27c93f; }
+.term-title { margin-left: 12px; letter-spacing: 0.04em; }
+
+.term-body { padding: 20px 22px; font-size: 14.5px; }
+
+.prompt { color: var(--prompt); user-select: none; }
+.prompt .user { color: var(--user); }
+.prompt .at { color: var(--text-faint); }
+.prompt .host { color: var(--host); }
+.prompt .colon { color: var(--text-faint); }
+.prompt .path { color: var(--path); }
+.prompt .sigil { color: var(--accent); margin-right: 6px; }
+
+.cmd { color: var(--text); }
+.cmd .kw { color: var(--keyword); }
+.cmd .str { color: var(--string); }
+.comment { color: var(--comment); }
+
+.line { white-space: pre-wrap; word-break: break-word; }
+.line + .line { margin-top: 2px; }
+
+.output { color: var(--text); padding: 6px 0 14px 0; }
+.output p { margin: 0 0 10px 0; }
+.output p:last-child { margin-bottom: 0; }
+
+.spacer { height: 14px; }
+
+/* Blinking cursor */
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  background: var(--accent);
+  vertical-align: -0.15em;
+  margin-left: 2px;
+  animation: blink 1.05s steps(2, start) infinite;
+}
+@keyframes blink { to { visibility: hidden; } }
+
+/* ---------- Section content ---------- */
+.hero-headline {
+  font-size: clamp(20px, 3.6vw, 28px);
+  font-weight: 600;
+  color: var(--text);
+  margin: 4px 0 8px;
+  line-height: 1.3;
+}
+.hero-sub { color: var(--text-dim); margin: 0 0 4px; }
+.hero-sub .accent { color: var(--accent); }
+
+/* Tag/chip list — for skills */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0 6px; }
+.chip {
+  font-size: 13px;
+  color: var(--accent);
+  background: rgba(46, 190, 78, 0.07);
+  border: 1px solid var(--accent-dim);
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+/* Talks list */
+.talks { list-style: none; padding: 0; margin: 8px 0 0; }
+.talks li {
+  padding: 14px 0;
+  border-bottom: 1px dashed var(--border-strong);
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 16px;
+}
+.talks li:last-child { border-bottom: none; }
+.talks .date { color: var(--text-faint); font-size: 13px; }
+.talks .talk-title { color: var(--text); font-weight: 600; }
+.talks .talk-meta { color: var(--text-dim); font-size: 13px; margin-top: 2px; }
+
+.empty-state {
+  color: var(--text-faint);
+  font-style: italic;
+  padding: 8px 0;
+}
+
+/* Contact list */
+.contact-list { list-style: none; padding: 0; margin: 8px 0 0; }
+.contact-list li { padding: 4px 0; }
+.contact-list .key { color: var(--text-faint); display: inline-block; min-width: 110px; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--text-faint);
+  font-size: 12.5px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.site-footer a { color: var(--text-dim); border-bottom: none; }
+.site-footer a:hover { color: var(--accent); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .container { padding: 16px 14px 60px; }
+  .site-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .term-body { padding: 16px 14px; font-size: 13.5px; }
+  .talks li { grid-template-columns: 1fr; gap: 4px; }
+  .talks .date { font-size: 12px; }
+  .contact-list .key { min-width: 90px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor { animation: none; }
+  html { scroll-behavior: auto; }
+}
