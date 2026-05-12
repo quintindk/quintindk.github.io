@@ -11,19 +11,33 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
+<script>
+  (function(){
+    try {
+      var saved = localStorage.getItem('theme');
+      var theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
 </head>
 <body>
 <div class="container">
 
   <header class="site-header">
     <a class="brand" href="/" aria-label="quintindk home">
-      <img src="/assets/img/logo-dark.svg" alt="" width="36" height="36">
+      <img id="brand-logo" src="/assets/img/logo-dark.svg" alt="" width="36" height="36">
       <span class="brand-text"><span class="sigil">~/</span><span class="name">quintindk</span></span>
     </a>
     <nav class="nav" aria-label="primary">
       <a href="/">~/home</a>
       <a href="/talks.html" class="active">~/talks</a>
       <a href="/about.html">~/about</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle light/dark">
+        <span class="icon-moon" aria-hidden="true">☾</span><span class="icon-sun" aria-hidden="true">☀</span>
+      </button>
     </nav>
   </header>
 
@@ -69,5 +83,6 @@
   </footer>
 </div>
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="/assets/js/theme.js" defer></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
   --text-faint: #6e7681;
   --accent: #2EBE4E;
   --accent-dim: #1f7a32;
+  --accent-bg: rgba(46, 190, 78, 0.08);
   --prompt: #2EBE4E;
   --user: #58a6ff;
   --host: #c9d1d9;
@@ -16,8 +17,34 @@
   --string: #a5d6ff;
   --comment: #8b949e;
   --keyword: #ff7b72;
+  --grid: rgba(255, 255, 255, 0.015);
+  --glow: rgba(46, 190, 78, 0.06);
   --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   --mono: "JetBrains Mono", "Fira Code", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+[data-theme="light"] {
+  --bg: #f6f8fa;
+  --bg-elev: #eaeef2;
+  --bg-window: #ffffff;
+  --border: #d0d7de;
+  --border-strong: #afb8c1;
+  --text: #1f2328;
+  --text-dim: #57606a;
+  --text-faint: #6e7781;
+  --accent: #1a7f37;
+  --accent-dim: #2da44e;
+  --accent-bg: rgba(26, 127, 55, 0.08);
+  --prompt: #1a7f37;
+  --user: #0969da;
+  --host: #1f2328;
+  --path: #9a6700;
+  --string: #0a3069;
+  --comment: #6e7781;
+  --keyword: #cf222e;
+  --grid: rgba(0, 0, 0, 0.04);
+  --glow: rgba(26, 127, 55, 0.07);
+  --shadow: 0 6px 24px rgba(140, 149, 159, 0.25);
 }
 
 * { box-sizing: border-box; }
@@ -34,11 +61,12 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(46, 190, 78, 0.06), transparent 70%),
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    radial-gradient(ellipse 80% 50% at 50% -10%, var(--glow), transparent 70%),
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
   background-size: auto, 32px 32px, 32px 32px;
   background-attachment: fixed;
+  transition: background-color 0.18s ease, color 0.18s ease;
 }
 
 a { color: var(--accent); text-decoration: none; border-bottom: 1px dashed var(--accent-dim); }
@@ -77,9 +105,32 @@ a:hover { color: #fff; border-bottom-color: var(--accent); }
 }
 .nav a:hover, .nav a.active {
   color: var(--accent);
-  background: rgba(46, 190, 78, 0.08);
+  background: var(--accent-bg);
   border-color: var(--accent-dim);
 }
+
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1;
+  margin-left: 4px;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+  background: var(--accent-bg);
+}
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: inline; }
+[data-theme="light"] .theme-toggle .icon-sun { display: inline; }
+[data-theme="light"] .theme-toggle .icon-moon { display: none; }
 
 /* ---------- Terminal window ---------- */
 .term {
@@ -159,7 +210,7 @@ a:hover { color: #fff; border-bottom-color: var(--accent); }
 .chip {
   font-size: 13px;
   color: var(--accent);
-  background: rgba(46, 190, 78, 0.07);
+  background: var(--accent-bg);
   border: 1px solid var(--accent-dim);
   padding: 3px 10px;
   border-radius: 4px;
