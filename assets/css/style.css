@@ -241,6 +241,87 @@ a:hover { color: #fff; border-bottom-color: var(--accent); }
 .contact-list li { padding: 4px 0; }
 .contact-list .key { color: var(--text-faint); display: inline-block; min-width: 110px; }
 
+/* ---------- Blog list ---------- */
+.posts { list-style: none; padding: 0; margin: 8px 0 0; }
+.posts li {
+  padding: 16px 0;
+  border-bottom: 1px dashed var(--border-strong);
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 16px;
+}
+.posts li:last-child { border-bottom: none; }
+.posts .date { color: var(--text-faint); font-size: 13px; padding-top: 2px; }
+.posts .post-title { color: var(--text); font-weight: 600; font-size: 15.5px; }
+.posts .post-title a { border-bottom: none; color: var(--text); }
+.posts .post-title a:hover { color: var(--accent); }
+.posts .post-summary { color: var(--text-dim); font-size: 13.5px; margin-top: 4px; }
+.posts .post-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.posts .post-tags .chip { font-size: 12px; padding: 2px 8px; }
+
+/* ---------- Post body (article prose) ---------- */
+.post-body { color: var(--text); }
+.post-body h2 {
+  font-size: 18px;
+  color: var(--text);
+  margin: 28px 0 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.post-body h2:first-child { border-top: none; padding-top: 0; margin-top: 4px; }
+.post-body h3 { font-size: 15.5px; color: var(--accent); margin: 20px 0 8px; }
+.post-body p { margin: 0 0 12px; }
+.post-body ul, .post-body ol { margin: 0 0 12px; padding-left: 22px; }
+.post-body li { margin: 4px 0; }
+.post-body code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  color: var(--string);
+  background: var(--accent-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+.post-body pre {
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 0 0 14px;
+}
+.post-body pre code { background: none; border: none; padding: 0; color: var(--text); font-size: 13px; }
+.post-body blockquote {
+  margin: 0 0 14px;
+  padding: 4px 16px;
+  border-left: 3px solid var(--accent-dim);
+  color: var(--text-dim);
+  background: var(--accent-bg);
+}
+.post-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 16px;
+  font-size: 13px;
+}
+.post-body th, .post-body td {
+  border: 1px solid var(--border-strong);
+  padding: 7px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.post-body th { background: var(--bg-elev); color: var(--text); font-weight: 600; }
+.post-meta {
+  color: var(--text-faint);
+  font-size: 13px;
+  margin: 0 0 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.post-meta .repo-link { color: var(--accent); }
+.post-back { margin-top: 24px; }
+
 /* ---------- Footer ---------- */
 .site-footer {
   margin-top: 48px;
@@ -263,6 +344,9 @@ a:hover { color: #fff; border-bottom-color: var(--accent); }
   .term-body { padding: 16px 14px; font-size: 13.5px; }
   .talks li { grid-template-columns: 1fr; gap: 4px; }
   .talks .date { font-size: 12px; }
+  .posts li { grid-template-columns: 1fr; gap: 6px; }
+  .posts .date { font-size: 12px; }
+  .post-body table { font-size: 12px; }
   .contact-list .key { min-width: 90px; }
 }
 

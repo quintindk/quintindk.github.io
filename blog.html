@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>~/talks — quintindk</title>
-<meta name="description" content="Talks, session recordings, and conference appearances by Quintin de Kok.">
+<title>~/blog — quintindk</title>
+<meta name="description" content="Field notes from real Azure builds — verified constraints, failure modes, and the repos behind them.">
 <meta name="theme-color" content="#0d1117">
 <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,6 +22,11 @@
     }
   })();
 </script>
+<meta property="og:title" content="~/blog — quintindk">
+<meta property="og:description" content="Field notes from real Azure builds — verified constraints, failure modes, and the repos behind them.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://quintindk.co.za/blog.html">
+<meta name="twitter:card" content="summary">
 </head>
 <body>
 <div class="container">
@@ -33,8 +38,8 @@
     </a>
     <nav class="nav" aria-label="primary">
       <a href="/">~/home</a>
-      <a href="/blog.html">~/blog</a>
-      <a href="/talks.html" class="active">~/talks</a>
+      <a href="/blog.html" class="active">~/blog</a>
+      <a href="/talks.html">~/talks</a>
       <a href="/about.html">~/about</a>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle light/dark">
         <span class="icon-moon" aria-hidden="true">☾</span><span class="icon-sun" aria-hidden="true">☀</span>
@@ -47,29 +52,35 @@
       <span class="term-dot dot-r"></span>
       <span class="term-dot dot-y"></span>
       <span class="term-dot dot-g"></span>
-      <span class="term-title">quintindk@cloud: ~/talks</span>
+      <span class="term-title">quintindk@cloud: ~/blog</span>
     </div>
     <div class="term-body">
 
-      <div class="line"><span class="prompt"><span class="sigil">&#10148;</span><span class="user">quintindk</span><span class="at">@</span><span class="host">cloud</span><span class="colon">:</span><span class="path">~/talks</span>$ </span><span class="cmd"><span class="kw">ls</span> -lt</span></div>
+      <div class="line"><span class="prompt"><span class="sigil">&#10148;</span><span class="user">quintindk</span><span class="at">@</span><span class="host">cloud</span><span class="colon">:</span><span class="path">~/blog</span>$ </span><span class="cmd"><span class="kw">ls</span> -lt posts/</span></div>
       <div class="output">
-        <p class="empty-state"># Total 0 &mdash; no recordings published yet.</p>
-        <p>I&rsquo;m about to start posting session recordings and short technical walkthroughs to YouTube. First videos land on <a href="https://www.youtube.com/@quintindk" rel="me">youtube.com/@quintindk</a> &mdash; subscribe there and they&rsquo;ll show up here too.</p>
-      </div>
+        <p># Field notes from real builds. Each post is the write-up behind a public repo &mdash; verified against a live lab, not inferred from docs.</p>
 
-      <div class="line"><span class="prompt"><span class="sigil">&#10148;</span><span class="user">quintindk</span><span class="at">@</span><span class="host">cloud</span><span class="colon">:</span><span class="path">~/talks</span>$ </span><span class="cmd"><span class="kw">cat</span> upcoming.md</span></div>
-      <div class="output">
-        <p>Topics in the queue:</p>
-        <ul>
-          <li>Hybrid Azure landing zones &mdash; what actually breaks in production</li>
-          <li>Azure Local / Stack HCI design review checklist</li>
-          <li>vWAN, ExpressRoute and the private endpoint DNS rabbit hole</li>
-          <li>Well-Architected reviews: how to run one without lecturing the customer</li>
-          <li>KQL recipes I keep reaching for</li>
+        <!-- POSTS:BEGIN -->
+        <ul class="posts">
+          <li>
+            <span class="date">2026-07-28</span>
+            <div>
+              <div class="post-title"><a href="/posts/fabric-realtime.html">Private Kafka to Microsoft Fabric: what VNet injection actually costs you</a></div>
+              <div class="post-summary">A reference lab connecting Fabric Real-Time Intelligence to a private Kafka broker with no public endpoint anywhere in the path &mdash; and the fifteen verified findings about Eventstream VNet injection that the docs won&rsquo;t tell you.</div>
+              <div class="post-tags">
+                <span class="chip">Microsoft Fabric</span>
+                <span class="chip">Eventstream</span>
+                <span class="chip">Private Networking</span>
+                <span class="chip">Kafka</span>
+                <span class="chip">Bicep</span>
+              </div>
+            </div>
+          </li>
         </ul>
+        <!-- POSTS:END -->
       </div>
 
-      <div class="line"><span class="prompt"><span class="sigil">&#10148;</span><span class="user">quintindk</span><span class="at">@</span><span class="host">cloud</span><span class="colon">:</span><span class="path">~/talks</span>$ </span><span class="cmd">cd /</span></div>
+      <div class="line"><span class="prompt"><span class="sigil">&#10148;</span><span class="user">quintindk</span><span class="at">@</span><span class="host">cloud</span><span class="colon">:</span><span class="path">~/blog</span>$ </span><span class="cmd">cd /</span></div>
       <div class="output">
         <p><a href="/">&larr; back to home</a></p>
       </div>

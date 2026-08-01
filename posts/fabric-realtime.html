@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Private Kafka to Microsoft Fabric — quintindk</title>
+<meta name="description" content="A reference lab connecting Fabric Real-Time Intelligence to a private Kafka broker with no public endpoint — and the verified findings about Eventstream VNet injection the docs won't tell you.">
+<meta name="theme-color" content="#0d1117">
+<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script>
+  (function(){
+    try {
+      var saved = localStorage.getItem('theme');
+      var theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
+<meta property="og:title" content="Private Kafka to Microsoft Fabric: what VNet injection actually costs you">
+<meta property="og:description" content="A reference lab connecting Fabric Real-Time Intelligence to a private Kafka broker with no public endpoint — and the verified findings the docs won't tell you.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://quintindk.co.za/posts/fabric-realtime.html">
+<meta name="twitter:card" content="summary">
+</head>
+<body>
+<div class="container">
+
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="quintindk home">
+      <img id="brand-logo" src="/assets/img/logo-dark.svg" alt="" width="36" height="36">
+      <span class="brand-text"><span class="sigil">~/</span><span class="name">quintindk</span></span>
+    </a>
+    <nav class="nav" aria-label="primary">
+      <a href="/">~/home</a>
+      <a href="/blog.html" class="active">~/blog</a>
+      <a href="/talks.html">~/talks</a>
+      <a href="/about.html">~/about</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle light/dark">
+        <span class="icon-moon" aria-hidden="true">☾</span><span class="icon-sun" aria-hidden="true">☀</span>
+      </button>
+    </nav>
+  </header>
+
+  <section class="term">
+    <div class="term-chrome">
+      <span class="term-dot dot-r"></span>
+      <span class="term-dot dot-y"></span>
+      <span class="term-dot dot-g"></span>
+      <span class="term-title">quintindk@cloud: ~/blog/fabric-realtime</span>
+    </div>
+    <div class="term-body">
+
+      <div class="line"><span class="prompt"><span class="sigil">&#10148;</span><span class="user">quintindk</span><span class="at">@</span><span class="host">cloud</span><span class="colon">:</span><span class="path">~/blog</span>$ </span><span class="cmd"><span class="kw">cat</span> fabric-realtime.md</span></div>
+
+      <div class="output">
+        <article class="post-body">
+          <h1 class="hero-headline">Private Kafka to Microsoft Fabric: what VNet injection actually costs you</h1>
+          <div class="post-meta">
+            <span>2026-07-28</span>
+            <span>repo: <a class="repo-link" href="https://github.com/quintindk/fabric-realtime">github.com/quintindk/fabric-realtime</a></span>
+          </div>
+
+          <p>Connecting Microsoft Fabric Real-Time Intelligence to a Kafka broker that lives on a private network &mdash; with no public endpoint anywhere in the path &mdash; sounds like a checkbox exercise. It is not. Eventstream VNet injection has a set of sharp edges that each cost hours, and several of them contradict the documentation outright.</p>
+
+          <p><a href="https://github.com/quintindk/fabric-realtime"><code>fabric-realtime</code></a> is a working reference lab for exactly this: the infrastructure is Bicep, the Fabric side is a documented portal walkthrough (because Fabric does not expose the necessary objects through ARM or a usable REST surface), and every claim in it was verified against a live build rather than inferred from docs.</p>
+
+          <h2>What the lab builds</h2>
+          <ul>
+            <li>A private Kafka broker behind an <strong>internal CA</strong>, with both a <code>SASL_SSL</code> listener and an <code>mTLS</code> listener, so you can test either authentication path.</li>
+            <li>A subnet correctly delegated to the Eventstream streaming connector.</li>
+            <li>Key Vault with a private endpoint, holding the CA and client certificates where Eventstream expects to find them.</li>
+            <li>A layered network verification script that tells you <strong>which</strong> layer is broken (DNS &rarr; TCP &rarr; TLS &rarr; SASL), rather than leaving you to guess.</li>
+            <li>A realistic event generator, so the resulting report shows signal instead of uniform noise.</li>
+          </ul>
+          <p>It deploys <em>into a spoke the platform team owns</em>, not one it creates &mdash; the VNet, subnets, delegation, NSGs and Virtual WAN connection are vended against a spoke spec and consumed by resource ID, never modified. That is the realistic enterprise shape, and it constrains the design in ways a greenfield lab never surfaces.</p>
+
+          <h2>The findings that change designs</h2>
+
+          <h3>The Kafka source has exactly one authentication kind: API Key</h3>
+          <p>Eventstream&rsquo;s Apache Kafka source offers no OAUTHBEARER, no Entra ID, no managed identity, no workspace identity for authenticating to the broker. Just a Key and a Secret over <code>SASL_SSL</code> or <code>SSL (mTLS)</code>. Internal CA and mTLS <em>are</em> supported, which is good news for a real enterprise Kafka estate. But point that same source at an Azure Event Hubs Kafka endpoint and you are forced onto SAS keys &mdash; which a hardened tenant can quietly forbid.</p>
+
+          <h3>A governed tenant can silently pin <code>disableLocalAuth = true</code></h3>
+          <p>Observed in a centrally governed subscription: an Event Hubs namespace created with <code>disableLocalAuth = true</code> by default, with no visible policy assignment at any scope you can see. Three separate code paths &mdash; the CLI <code>namespace update</code>, <code>az resource update</code>, and a raw ARM <code>PATCH</code> &mdash; each reported success and changed nothing.</p>
+          <blockquote>Do not write a template that declares <code>disableLocalAuth: false</code> in a tenant like this. It produces a template that lies about the state it achieves, and a deployment that reports success while leaving the connector unusable.</blockquote>
+
+          <h3>Selecting a streaming gateway REMOVES the workspace identity auth option</h3>
+          <p>This one contradicts the documentation directly. The docs say the Azure Event Hubs source, at Extended feature level, offers workspace identity for both public and private cases. In practice:</p>
+          <table>
+            <thead><tr><th>Data gateway selected</th><th>Authentication kinds offered</th></tr></thead>
+            <tbody>
+              <tr><td>none</td><td>Shared Access Key, <strong>Workspace identity</strong></td></tr>
+              <tr><td><strong>[Streaming VNET] gateway</strong></td><td>Shared Access Key only</td></tr>
+            </tbody>
+          </table>
+          <p>Choosing the streaming virtual network data gateway <strong>removes</strong> workspace identity from the list. The two features are documented as composable and are not. In a governed tenant that mandates <em>both</em> private endpoints <em>and</em> disabled local auth &mdash; a completely ordinary pairing &mdash; Azure Event Hubs cannot currently be used as an Eventstream source at all. That is the finding that pushes the design onto a Kafka broker you control, which is why the lab builds a real one.</p>
+
+          <h3>Verify the network before blaming Fabric</h3>
+          <p>Because there is no test-connection button when a data gateway is involved, the failure surface is opaque. The lab&rsquo;s layered check isolates the actual fault:</p>
+          <table>
+            <thead><tr><th>Layer</th><th>Failure means</th></tr></thead>
+            <tbody>
+              <tr><td>DNS</td><td>Missing or unlinked private zone</td></tr>
+              <tr><td>TCP</td><td>NSG, routing, or broker not listening</td></tr>
+              <tr><td>TLS</td><td>Certificate, SAN, or CA trust</td></tr>
+              <tr><td>SASL</td><td>Credentials or broker auth configuration</td></tr>
+            </tbody>
+          </table>
+          <p>A hostname that resolves to a <strong>public</strong> IP means private DNS is not in play, regardless of what the portal shows. Knowing precisely which layer broke is the difference between a five-minute fix and an afternoon.</p>
+
+          <h3>Smaller edges, each an hour</h3>
+          <ul>
+            <li>The delegation name is <code>Microsoft.MessagingConnectors/connectors</code>, not the portal label &ldquo;Messaging Connectors.&rdquo; Transcribe the docs literally and you get a rejection.</li>
+            <li>The resource provider advertises itself as <code>global</code>, so regional availability is invisible unless you query <code>list-available-delegations</code> directly.</li>
+            <li>There are two &ldquo;VNet data gateways&rdquo; &mdash; the Power Platform one and the streaming one &mdash; and only the streaming one is correct for Eventstream.</li>
+            <li>The VNet and subnet are <strong>immutable the moment the Eventstream is published</strong>. Size the subnet from the partition count, not from habit.</li>
+            <li><code>kafka-storage.sh --standalone</code> does not exist before Kafka 4.0 &mdash; on 3.8.x it fails <em>after</em> all the certificate work, so the failure reads as a PKI problem when it is not.</li>
+          </ul>
+
+          <h2>Proven end to end</h2>
+          <p>The whole point of the lab, demonstrated with evidence from both ends rather than a green tick in a portal: an Eventstream created entirely through the Fabric REST API, a service association link appearing on the delegated subnet (<code>provisioningState: Succeeded</code>), and events flowing from a private Kafka broker into Fabric over a path with no public endpoint. The full set of fifteen findings &mdash; each observed, not assumed &mdash; lives in <a href="https://github.com/quintindk/fabric-realtime/blob/main/docs/findings.md"><code>docs/findings.md</code></a>.</p>
+
+          <h2>Get the repo</h2>
+          <p>Everything is on GitHub, Bicep and scripts included, ready to point at your own vended spoke:</p>
+          <p>&rarr; <a href="https://github.com/quintindk/fabric-realtime"><strong>github.com/quintindk/fabric-realtime</strong></a></p>
+        </article>
+
+        <p class="post-back"><a href="/blog.html">&larr; back to ~/blog</a></p>
+      </div>
+
+      <div class="line"><span class="prompt"><span class="sigil">&#10148;</span><span class="user">quintindk</span><span class="at">@</span><span class="host">cloud</span><span class="colon">:</span><span class="path">~/blog</span>$ </span><span class="cursor" aria-hidden="true"></span></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span>&copy; <span id="year">2026</span> Quintin de Kok &middot; opinions my own</span>
+    <span><a href="https://github.com/quintindk/quintindk.github.io">source</a></span>
+  </footer>
+</div>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="/assets/js/theme.js" defer></script>
+</body>
+</html>
