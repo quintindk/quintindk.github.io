@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>heddle: your agent knows more than it is telling you — quintindk</title>
+<meta name="description" content="A terminal client that treats a Matrix room as a coding-agent session rather than a chat log — tiled panes, tool cards, inline diffs and keypress approvals. Two weekends in Rust.">
+<meta name="theme-color" content="#0d1117">
+<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script>
+  (function(){
+    try {
+      var saved = localStorage.getItem('theme');
+      var theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
+<meta property="og:title" content="heddle: your agent knows more than it is telling you">
+<meta property="og:description" content="A terminal client that treats a Matrix room as a coding-agent session rather than a chat log — tiled panes, tool cards, inline diffs and keypress approvals.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://quintindk.co.za/posts/heddle.html">
+<meta name="twitter:card" content="summary">
+</head>
+<body>
+<div class="container">
+
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="quintindk home">
+      <img id="brand-logo" src="/assets/img/logo-dark.svg" alt="" width="36" height="36">
+      <span class="brand-text"><span class="sigil">~/</span><span class="name">quintindk</span></span>
+    </a>
+    <nav class="nav" aria-label="primary">
+      <a href="/">~/home</a>
+      <a href="/blog.html" class="active">~/blog</a>
+      <a href="/talks.html">~/talks</a>
+      <a href="/about.html">~/about</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle light/dark">
+        <span class="icon-moon" aria-hidden="true">☾</span><span class="icon-sun" aria-hidden="true">☀</span>
+      </button>
+    </nav>
+  </header>
+
+  <section class="term">
+    <div class="term-chrome">
+      <span class="term-dot dot-r"></span>
+      <span class="term-dot dot-y"></span>
+      <span class="term-dot dot-g"></span>
+      <span class="term-title">quintindk@cloud: ~/blog/heddle</span>
+    </div>
+    <div class="term-body">
+
+      <div class="line"><span class="prompt"><span class="sigil">&#10148;</span><span class="user">quintindk</span><span class="at">@</span><span class="host">cloud</span><span class="colon">:</span><span class="path">~/blog</span>$ </span><span class="cmd"><span class="kw">cat</span> heddle.md</span></div>
+
+      <div class="output">
+        <article class="post-body">
+          <h1 class="hero-headline">heddle: your agent knows more than it is telling you</h1>
+          <div class="post-meta">
+            <span>2026-08-10</span>
+            <span>repo: <a class="repo-link" href="https://github.com/SynthSwarm/heddle">github.com/SynthSwarm/heddle</a></span>
+          </div>
+
+          <p>I run coding agents over Matrix. It is a genuinely good arrangement &mdash; the agent lives on a server, I talk to it from whatever machine I happen to be holding, and the history is encrypted and syncs everywhere without my having to build any of that. The weak link is the client. Every Matrix client I tried treats an agent session as the thing it superficially resembles: a chat log.</p>
+
+          <p>So when the agent edits a file, this is what arrives:</p>
+
+          <pre><code>🔧 edit: "src/main.rs..."</code></pre>
+
+          <p>No result. No diff. No exit code. No duration. The agent knew every one of those things &mdash; it had the typed tool call, the result and the timing sitting in memory &mdash; and then flattened the lot into a single human-readable string on the way out the door. A client reading only that is permanently capped at pretty chat. No amount of cleverness at my end recovers information that was never sent.</p>
+
+          <p><a href="https://github.com/SynthSwarm/heddle"><code>heddle</code></a> is two weekends of doing something about it.</p>
+
+          <h2>The idea worth stealing</h2>
+
+          <p>Matrix already has the hierarchy. Spaces contain rooms, rooms contain threads. If your agent opens a thread per session &mdash; mine does, automatically &mdash; then the structure you want is already sitting there in the protocol, fully populated, and no client is drawing it.</p>
+
+          <table>
+            <thead><tr><th>heddle</th><th>Matrix</th><th>What it is to you</th></tr></thead>
+            <tbody>
+              <tr><td>Workspace</td><td>Space</td><td>A project</td></tr>
+              <tr><td>Tab</td><td>Room</td><td>A lane of work within it</td></tr>
+              <tr><td>Pane</td><td>Thread</td><td>One live agent session</td></tr>
+            </tbody>
+          </table>
+
+          <p>A room full of agent threads <em>is</em> a workspace full of agent panes. heddle just renders it that way: tiled, tabbed and keyboard-driven, with the prefix key on <code>ctrl+a</code> so the muscle memory transfers straight from tmux. That is the whole conceit. Everything else is execution.</p>
+
+          <h2>What it is actually like to use</h2>
+
+          <ul>
+            <li>Tool calls arrive as <strong>collapsible cards</strong> with a status glyph and a duration. Failures expand themselves and mark the gutter red, on the grounds that those are the ones you wanted to see anyway.</li>
+            <li>A diff renders as <strong>a diff</strong>, with a proper gutter. JSON renders as a tree you can fold. Markdown renders as markdown. Long output folds itself rather than burying the pane.</li>
+            <li>Every pane carries a state &mdash; <strong>blocked, working, done, idle</strong> &mdash; which rolls up into the tab and then the workspace, so a single badge tells you which of six parallel sessions is the one waiting on you.</li>
+            <li>When an agent asks permission, you press <code>y</code> or <code>n</code> and there is a live countdown. It only steals focus if nothing else is mid-flight, because being yanked out of a running session to approve something trivial is its own small tragedy.</li>
+            <li>End-to-end encryption throughout &mdash; device verification, cross-signing, key backup, the lot. Unglamorous, and not something a client holding every Megolm key your device has seen gets to skip.</li>
+          </ul>
+
+          <p>On the name: a heddle is the part of a loom that guides an individual thread through the warp. Threads are the core abstraction here. The metaphor was too neat to pass up.</p>
+
+          <h2>The honest part</h2>
+
+          <blockquote>heddle is version 0.2.0 and about eight days old. Nothing in it has been run by anyone who did not write it.</blockquote>
+
+          <p>Two things I would want to know before installing a stranger&rsquo;s weekend project.</p>
+
+          <p><strong>The lossless path has no producer yet.</strong> heddle can read a structured payload attached alongside the plain message &mdash; the real tool call, result, exit code and timing, travelling intact. Nothing currently emits it. So in practice every message today goes through the fallback parser, which reconstructs what it can from the printed output and marks the pane with a dim <code>~</code> to say so. That mark is deliberate and it is staying. I would rather show you that something was lost than quietly pretend it was not.</p>
+
+          <p><strong>It is an agent client, not a chat client.</strong> It cannot join a room, upload a file or render an image. Those were deferred on purpose and it is a real limitation, not a coming-soon. If what you want is a general-purpose Matrix TUI, <code>iamb</code> and <code>gomuks</code> are both excellent and this is emphatically not that.</p>
+
+          <p>It also requires a homeserver with native sliding sync. That is a hard requirement with no fallback path by design &mdash; Synapse is verified, others may simply not work. <code>heddle --check</code> will tell you before you waste an evening on it.</p>
+
+          <h2>Get it</h2>
+
+          <p>Static binaries for x86_64 Linux, glibc and musl, are on the releases page &mdash; no Rust toolchain needed. Or build it yourself if you would rather.</p>
+
+          <p>&rarr; <a href="https://github.com/SynthSwarm/heddle"><strong>github.com/SynthSwarm/heddle</strong></a></p>
+
+          <p>Apache-2.0, issues are open. I would particularly like to hear from anyone whose agent setup looks nothing like mine: the adapter layer is a lookup table rather than a bespoke parser precisely so that teaching it a second agent is a small change instead of a rewrite.</p>
+        </article>
+
+        <p class="post-back"><a href="/blog.html">&larr; back to ~/blog</a></p>
+      </div>
+
+      <div class="line"><span class="prompt"><span class="sigil">&#10148;</span><span class="user">quintindk</span><span class="at">@</span><span class="host">cloud</span><span class="colon">:</span><span class="path">~/blog</span>$ </span><span class="cursor" aria-hidden="true"></span></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span>&copy; <span id="year">2026</span> Quintin de Kok &middot; opinions my own</span>
+    <span><a href="https://github.com/quintindk/quintindk.github.io">source</a></span>
+  </footer>
+</div>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="/assets/js/theme.js" defer></script>
+</body>
+</html>
